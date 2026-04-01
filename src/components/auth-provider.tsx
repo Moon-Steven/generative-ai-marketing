@@ -28,7 +28,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     async function initAuth() {
       try {
         // Check if we already have a valid session
-        const meRes = await fetch("/api/auth/me");
+        const meRes = await fetch("/api/auth/me", { credentials: "include" });
         if (meRes.ok) {
           const meData = await meRes.json();
           setUser(meData.data);
@@ -40,12 +40,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const loginRes = await fetch("/api/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({ email: "admin@generative-ai-marketing.com" }),
         });
 
         if (loginRes.ok) {
           const loginData = await loginRes.json();
           setUser(loginData.data.user);
+        } else {
+          console.error("Login failed:", loginRes.status);
         }
       } catch (e) {
         console.error("Auth init failed:", e);

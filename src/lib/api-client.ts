@@ -1,7 +1,11 @@
 import type { Campaign, OverviewData, Creative, Product, PaginatedResponse } from "./types";
 
+const defaultInit: RequestInit = {
+  credentials: "include",
+};
+
 async function fetchJSON<T>(url: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(url, init);
+  const res = await fetch(url, { ...defaultInit, ...init });
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: "Request failed" }));
     throw new Error(err.error || `API error: ${res.status}`);
@@ -11,7 +15,7 @@ async function fetchJSON<T>(url: string, init?: RequestInit): Promise<T> {
 }
 
 async function fetchPaginated<T>(url: string): Promise<PaginatedResponse<T>> {
-  const res = await fetch(url);
+  const res = await fetch(url, defaultInit);
   if (!res.ok) throw new Error(`API error: ${res.status}`);
   return res.json();
 }

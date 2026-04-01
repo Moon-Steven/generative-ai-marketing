@@ -5,6 +5,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { api } from "@/lib/api-client";
 import { useApi } from "@/hooks/use-api";
 import type { KpiItem, OverviewData } from "@/lib/types";
+import { useAuth } from "@/components/auth-provider";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -57,6 +58,7 @@ function LoadingSkeleton() {
 }
 
 export default function HomePage() {
+  const { user } = useAuth();
   const { data: overview, loading } = useApi<OverviewData>(() => api.insights.overview());
   const [trendMetric, setTrendMetric] = useState<"revenue" | "spend" | "orders">("revenue");
   const [toast, setToast] = useState<string | null>(null);
@@ -76,7 +78,7 @@ export default function HomePage() {
       {toast && <Toast message={toast} onClose={() => setToast(null)} />}
 
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-foreground">Good morning</h2>
+        <h2 className="text-2xl font-bold text-foreground">Good morning{user ? `, ${user.name}` : ""}</h2>
         <p className="text-muted-foreground mt-1">Here&apos;s your growth snapshot for today.</p>
       </div>
 

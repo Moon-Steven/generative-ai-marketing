@@ -17,9 +17,9 @@ const navItems = [
   { href: "/", label: "Home", icon: LayoutDashboard },
   { href: "/campaigns", label: "Campaigns", icon: Megaphone },
   { href: "/creative-studio", label: "Creative Studio", icon: Paintbrush },
-  { href: "#", label: "Products", icon: Package, disabled: true },
-  { href: "#", label: "Insights", icon: BarChart3, disabled: true },
-  { href: "#", label: "Settings", icon: Settings, disabled: true },
+  { href: "/products", label: "Products", icon: Package },
+  { href: "/insights", label: "Insights", icon: BarChart3 },
+  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 export function Sidebar() {
@@ -49,20 +49,6 @@ export function Sidebar() {
             ? pathname === "/"
             : pathname.startsWith(item.href) && item.href !== "#";
           const Icon = item.icon;
-
-          if (item.disabled) {
-            return (
-              <span
-                key={item.label}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm opacity-40 cursor-not-allowed"
-                aria-disabled="true"
-              >
-                <Icon className="w-[18px] h-[18px]" />
-                {item.label}
-                <span className="ml-auto text-[10px] bg-white/10 px-1.5 py-0.5 rounded">Soon</span>
-              </span>
-            );
-          }
 
           return (
             <Link
